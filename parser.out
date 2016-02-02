@@ -1,0 +1,1531 @@
+Created by PLY version 3.8 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> PROGRAM IDENTIFIER ENDLINE program1
+Rule 2     program1 -> vars program2
+Rule 3     program1 -> program2
+Rule 4     program2 -> block
+Rule 5     vars -> VARIABLE vars1
+Rule 6     vars1 -> IDENTIFIER vars2
+Rule 7     vars1 -> error vars2
+Rule 8     vars2 -> vars3
+Rule 9     vars2 -> SEPARATE vars1
+Rule 10    vars3 -> ASSIGN TYPEINT ENDLINE
+Rule 11    vars3 -> ASSIGN TYPEFLOAT ENDLINE
+Rule 12    vars3 -> ASSIGN TYPEINT ENDLINE vars1
+Rule 13    vars3 -> ASSIGN TYPEFLOAT ENDLINE vars1
+Rule 14    vars3 -> ASSIGN TYPEINT error
+Rule 15    vars3 -> ASSIGN TYPEFLOAT error
+Rule 16    vars3 -> ASSIGN TYPEINT error vars1
+Rule 17    vars3 -> ASSIGN TYPEFLOAT error vars1
+Rule 18    block -> OPENEXP block1
+Rule 19    block1 -> estat block1
+Rule 20    block1 -> CLOSEEXP
+Rule 21    estat -> asignation
+Rule 22    estat -> condition
+Rule 23    estat -> writing
+Rule 24    asignation -> IDENTIFIER EQUALS expression ENDLINE
+Rule 25    condition -> IF OPENCOND expression CLOSECOND block condition1 ENDLINE
+Rule 26    condition -> IF error expression CLOSECOND block condition1 ENDLINE
+Rule 27    condition1 -> empty
+Rule 28    condition1 -> ELSE block
+Rule 29    writing -> PRINT OPENCOND writing1 CLOSECOND ENDLINE
+Rule 30    writing1 -> expression
+Rule 31    writing1 -> expression SEPARATE writing1
+Rule 32    writing1 -> STRING
+Rule 33    writing -> PRINT OPENCOND writing1 CLOSECOND error
+Rule 34    expression -> exp LESSTHAN exp
+Rule 35    expression -> exp MORETHAN exp
+Rule 36    expression -> exp DIFFERENT exp
+Rule 37    expression -> exp
+Rule 38    empty -> <empty>
+Rule 39    exp -> term exp1
+Rule 40    exp -> term
+Rule 41    exp1 -> MINUS exp
+Rule 42    exp1 -> PLUS exp
+Rule 43    exp1 -> error exp
+Rule 44    term -> factor term1
+Rule 45    term -> factor
+Rule 46    term1 -> TIMES term
+Rule 47    term1 -> DIVIDE term
+Rule 48    factor -> OPENCOND expression CLOSECOND
+Rule 49    factor -> factor1
+Rule 50    factor -> MINUS factor1
+Rule 51    factor -> PLUS factor1
+Rule 52    factor1 -> constant
+Rule 53    constant -> IDENTIFIER
+Rule 54    constant -> INTEGER
+Rule 55    constant -> FLOATNUM
+
+Terminals, with rules where they appear
+
+ASSIGN               : 10 11 12 13 14 15 16 17
+CLOSECOND            : 25 26 29 33 48
+CLOSEEXP             : 20
+DIFFERENT            : 36
+DIVIDE               : 47
+ELSE                 : 28
+ENDLINE              : 1 10 11 12 13 24 25 26 29
+EQUALS               : 24
+FLOATNUM             : 55
+IDENTIFIER           : 1 6 24 53
+IF                   : 25 26
+INTEGER              : 54
+LESSTHAN             : 34
+MINUS                : 41 50
+MORETHAN             : 35
+OPENCOND             : 25 29 33 48
+OPENEXP              : 18
+PLUS                 : 42 51
+PRINT                : 29 33
+PROGRAM              : 1
+SEPARATE             : 9 31
+STRING               : 32
+TIMES                : 46
+TYPEFLOAT            : 11 13 15 17
+TYPEINT              : 10 12 14 16
+VARIABLE             : 5
+error                : 7 14 15 16 17 26 33 43
+
+Nonterminals, with rules where they appear
+
+asignation           : 21
+block                : 4 25 26 28
+block1               : 18 19
+condition            : 22
+condition1           : 25 26
+constant             : 52
+empty                : 27
+estat                : 19
+exp                  : 34 34 35 35 36 36 37 41 42 43
+exp1                 : 39
+expression           : 24 25 26 30 31 48
+factor               : 44 45
+factor1              : 49 50 51
+program              : 0
+program1             : 1
+program2             : 2 3
+term                 : 39 40 46 47
+term1                : 44
+vars                 : 2
+vars1                : 5 9 12 13 16 17
+vars2                : 6 7
+vars3                : 8
+writing              : 23
+writing1             : 29 31 33
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . PROGRAM IDENTIFIER ENDLINE program1
+
+    PROGRAM         shift and go to state 2
+
+    program                        shift and go to state 1
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> PROGRAM . IDENTIFIER ENDLINE program1
+
+    IDENTIFIER      shift and go to state 3
+
+
+state 3
+
+    (1) program -> PROGRAM IDENTIFIER . ENDLINE program1
+
+    ENDLINE         shift and go to state 4
+
+
+state 4
+
+    (1) program -> PROGRAM IDENTIFIER ENDLINE . program1
+    (2) program1 -> . vars program2
+    (3) program1 -> . program2
+    (5) vars -> . VARIABLE vars1
+    (4) program2 -> . block
+    (18) block -> . OPENEXP block1
+
+    VARIABLE        shift and go to state 8
+    OPENEXP         shift and go to state 5
+
+    vars                           shift and go to state 7
+    program1                       shift and go to state 6
+    block                          shift and go to state 9
+    program2                       shift and go to state 10
+
+state 5
+
+    (18) block -> OPENEXP . block1
+    (19) block1 -> . estat block1
+    (20) block1 -> . CLOSEEXP
+    (21) estat -> . asignation
+    (22) estat -> . condition
+    (23) estat -> . writing
+    (24) asignation -> . IDENTIFIER EQUALS expression ENDLINE
+    (25) condition -> . IF OPENCOND expression CLOSECOND block condition1 ENDLINE
+    (26) condition -> . IF error expression CLOSECOND block condition1 ENDLINE
+    (29) writing -> . PRINT OPENCOND writing1 CLOSECOND ENDLINE
+    (33) writing -> . PRINT OPENCOND writing1 CLOSECOND error
+
+    CLOSEEXP        shift and go to state 17
+    IDENTIFIER      shift and go to state 11
+    IF              shift and go to state 14
+    PRINT           shift and go to state 13
+
+    writing                        shift and go to state 12
+    condition                      shift and go to state 18
+    estat                          shift and go to state 15
+    block1                         shift and go to state 19
+    asignation                     shift and go to state 16
+
+state 6
+
+    (1) program -> PROGRAM IDENTIFIER ENDLINE program1 .
+
+    $end            reduce using rule 1 (program -> PROGRAM IDENTIFIER ENDLINE program1 .)
+
+
+state 7
+
+    (2) program1 -> vars . program2
+    (4) program2 -> . block
+    (18) block -> . OPENEXP block1
+
+    OPENEXP         shift and go to state 5
+
+    block                          shift and go to state 9
+    program2                       shift and go to state 20
+
+state 8
+
+    (5) vars -> VARIABLE . vars1
+    (6) vars1 -> . IDENTIFIER vars2
+    (7) vars1 -> . error vars2
+
+    IDENTIFIER      shift and go to state 21
+    error           shift and go to state 22
+
+    vars1                          shift and go to state 23
+
+state 9
+
+    (4) program2 -> block .
+
+    $end            reduce using rule 4 (program2 -> block .)
+
+
+state 10
+
+    (3) program1 -> program2 .
+
+    $end            reduce using rule 3 (program1 -> program2 .)
+
+
+state 11
+
+    (24) asignation -> IDENTIFIER . EQUALS expression ENDLINE
+
+    EQUALS          shift and go to state 24
+
+
+state 12
+
+    (23) estat -> writing .
+
+    CLOSEEXP        reduce using rule 23 (estat -> writing .)
+    IDENTIFIER      reduce using rule 23 (estat -> writing .)
+    IF              reduce using rule 23 (estat -> writing .)
+    PRINT           reduce using rule 23 (estat -> writing .)
+
+
+state 13
+
+    (29) writing -> PRINT . OPENCOND writing1 CLOSECOND ENDLINE
+    (33) writing -> PRINT . OPENCOND writing1 CLOSECOND error
+
+    OPENCOND        shift and go to state 25
+
+
+state 14
+
+    (25) condition -> IF . OPENCOND expression CLOSECOND block condition1 ENDLINE
+    (26) condition -> IF . error expression CLOSECOND block condition1 ENDLINE
+
+    OPENCOND        shift and go to state 26
+    error           shift and go to state 27
+
+
+state 15
+
+    (19) block1 -> estat . block1
+    (19) block1 -> . estat block1
+    (20) block1 -> . CLOSEEXP
+    (21) estat -> . asignation
+    (22) estat -> . condition
+    (23) estat -> . writing
+    (24) asignation -> . IDENTIFIER EQUALS expression ENDLINE
+    (25) condition -> . IF OPENCOND expression CLOSECOND block condition1 ENDLINE
+    (26) condition -> . IF error expression CLOSECOND block condition1 ENDLINE
+    (29) writing -> . PRINT OPENCOND writing1 CLOSECOND ENDLINE
+    (33) writing -> . PRINT OPENCOND writing1 CLOSECOND error
+
+    CLOSEEXP        shift and go to state 17
+    IDENTIFIER      shift and go to state 11
+    IF              shift and go to state 14
+    PRINT           shift and go to state 13
+
+    writing                        shift and go to state 12
+    condition                      shift and go to state 18
+    estat                          shift and go to state 15
+    block1                         shift and go to state 28
+    asignation                     shift and go to state 16
+
+state 16
+
+    (21) estat -> asignation .
+
+    CLOSEEXP        reduce using rule 21 (estat -> asignation .)
+    IDENTIFIER      reduce using rule 21 (estat -> asignation .)
+    IF              reduce using rule 21 (estat -> asignation .)
+    PRINT           reduce using rule 21 (estat -> asignation .)
+
+
+state 17
+
+    (20) block1 -> CLOSEEXP .
+
+    $end            reduce using rule 20 (block1 -> CLOSEEXP .)
+    ELSE            reduce using rule 20 (block1 -> CLOSEEXP .)
+    ENDLINE         reduce using rule 20 (block1 -> CLOSEEXP .)
+
+
+state 18
+
+    (22) estat -> condition .
+
+    CLOSEEXP        reduce using rule 22 (estat -> condition .)
+    IDENTIFIER      reduce using rule 22 (estat -> condition .)
+    IF              reduce using rule 22 (estat -> condition .)
+    PRINT           reduce using rule 22 (estat -> condition .)
+
+
+state 19
+
+    (18) block -> OPENEXP block1 .
+
+    ENDLINE         reduce using rule 18 (block -> OPENEXP block1 .)
+    ELSE            reduce using rule 18 (block -> OPENEXP block1 .)
+    $end            reduce using rule 18 (block -> OPENEXP block1 .)
+
+
+state 20
+
+    (2) program1 -> vars program2 .
+
+    $end            reduce using rule 2 (program1 -> vars program2 .)
+
+
+state 21
+
+    (6) vars1 -> IDENTIFIER . vars2
+    (8) vars2 -> . vars3
+    (9) vars2 -> . SEPARATE vars1
+    (10) vars3 -> . ASSIGN TYPEINT ENDLINE
+    (11) vars3 -> . ASSIGN TYPEFLOAT ENDLINE
+    (12) vars3 -> . ASSIGN TYPEINT ENDLINE vars1
+    (13) vars3 -> . ASSIGN TYPEFLOAT ENDLINE vars1
+    (14) vars3 -> . ASSIGN TYPEINT error
+    (15) vars3 -> . ASSIGN TYPEFLOAT error
+    (16) vars3 -> . ASSIGN TYPEINT error vars1
+    (17) vars3 -> . ASSIGN TYPEFLOAT error vars1
+
+    SEPARATE        shift and go to state 32
+    ASSIGN          shift and go to state 31
+
+    vars3                          shift and go to state 29
+    vars2                          shift and go to state 30
+
+state 22
+
+    (7) vars1 -> error . vars2
+    (8) vars2 -> . vars3
+    (9) vars2 -> . SEPARATE vars1
+    (10) vars3 -> . ASSIGN TYPEINT ENDLINE
+    (11) vars3 -> . ASSIGN TYPEFLOAT ENDLINE
+    (12) vars3 -> . ASSIGN TYPEINT ENDLINE vars1
+    (13) vars3 -> . ASSIGN TYPEFLOAT ENDLINE vars1
+    (14) vars3 -> . ASSIGN TYPEINT error
+    (15) vars3 -> . ASSIGN TYPEFLOAT error
+    (16) vars3 -> . ASSIGN TYPEINT error vars1
+    (17) vars3 -> . ASSIGN TYPEFLOAT error vars1
+
+    SEPARATE        shift and go to state 32
+    ASSIGN          shift and go to state 31
+
+    vars3                          shift and go to state 29
+    vars2                          shift and go to state 33
+
+state 23
+
+    (5) vars -> VARIABLE vars1 .
+
+    OPENEXP         reduce using rule 5 (vars -> VARIABLE vars1 .)
+
+
+state 24
+
+    (24) asignation -> IDENTIFIER EQUALS . expression ENDLINE
+    (34) expression -> . exp LESSTHAN exp
+    (35) expression -> . exp MORETHAN exp
+    (36) expression -> . exp DIFFERENT exp
+    (37) expression -> . exp
+    (39) exp -> . term exp1
+    (40) exp -> . term
+    (44) term -> . factor term1
+    (45) term -> . factor
+    (48) factor -> . OPENCOND expression CLOSECOND
+    (49) factor -> . factor1
+    (50) factor -> . MINUS factor1
+    (51) factor -> . PLUS factor1
+    (52) factor1 -> . constant
+    (53) constant -> . IDENTIFIER
+    (54) constant -> . INTEGER
+    (55) constant -> . FLOATNUM
+
+    OPENCOND        shift and go to state 37
+    MINUS           shift and go to state 43
+    PLUS            shift and go to state 41
+    IDENTIFIER      shift and go to state 34
+    INTEGER         shift and go to state 44
+    FLOATNUM        shift and go to state 42
+
+    factor1                        shift and go to state 45
+    expression                     shift and go to state 35
+    constant                       shift and go to state 36
+    factor                         shift and go to state 38
+    exp                            shift and go to state 39
+    term                           shift and go to state 40
+
+state 25
+
+    (29) writing -> PRINT OPENCOND . writing1 CLOSECOND ENDLINE
+    (33) writing -> PRINT OPENCOND . writing1 CLOSECOND error
+    (30) writing1 -> . expression
+    (31) writing1 -> . expression SEPARATE writing1
+    (32) writing1 -> . STRING
+    (34) expression -> . exp LESSTHAN exp
+    (35) expression -> . exp MORETHAN exp
+    (36) expression -> . exp DIFFERENT exp
+    (37) expression -> . exp
+    (39) exp -> . term exp1
+    (40) exp -> . term
+    (44) term -> . factor term1
+    (45) term -> . factor
+    (48) factor -> . OPENCOND expression CLOSECOND
+    (49) factor -> . factor1
+    (50) factor -> . MINUS factor1
+    (51) factor -> . PLUS factor1
+    (52) factor1 -> . constant
+    (53) constant -> . IDENTIFIER
+    (54) constant -> . INTEGER
+    (55) constant -> . FLOATNUM
+
+    STRING          shift and go to state 46
+    OPENCOND        shift and go to state 37
+    MINUS           shift and go to state 43
+    PLUS            shift and go to state 41
+    IDENTIFIER      shift and go to state 34
+    INTEGER         shift and go to state 44
+    FLOATNUM        shift and go to state 42
+
+    expression                     shift and go to state 47
+    factor1                        shift and go to state 45
+    constant                       shift and go to state 36
+    factor                         shift and go to state 38
+    writing1                       shift and go to state 48
+    exp                            shift and go to state 39
+    term                           shift and go to state 40
+
+state 26
+
+    (25) condition -> IF OPENCOND . expression CLOSECOND block condition1 ENDLINE
+    (34) expression -> . exp LESSTHAN exp
+    (35) expression -> . exp MORETHAN exp
+    (36) expression -> . exp DIFFERENT exp
+    (37) expression -> . exp
+    (39) exp -> . term exp1
+    (40) exp -> . term
+    (44) term -> . factor term1
+    (45) term -> . factor
+    (48) factor -> . OPENCOND expression CLOSECOND
+    (49) factor -> . factor1
+    (50) factor -> . MINUS factor1
+    (51) factor -> . PLUS factor1
+    (52) factor1 -> . constant
+    (53) constant -> . IDENTIFIER
+    (54) constant -> . INTEGER
+    (55) constant -> . FLOATNUM
+
+    OPENCOND        shift and go to state 37
+    MINUS           shift and go to state 43
+    PLUS            shift and go to state 41
+    IDENTIFIER      shift and go to state 34
+    INTEGER         shift and go to state 44
+    FLOATNUM        shift and go to state 42
+
+    expression                     shift and go to state 49
+    factor1                        shift and go to state 45
+    constant                       shift and go to state 36
+    factor                         shift and go to state 38
+    exp                            shift and go to state 39
+    term                           shift and go to state 40
+
+state 27
+
+    (26) condition -> IF error . expression CLOSECOND block condition1 ENDLINE
+    (34) expression -> . exp LESSTHAN exp
+    (35) expression -> . exp MORETHAN exp
+    (36) expression -> . exp DIFFERENT exp
+    (37) expression -> . exp
+    (39) exp -> . term exp1
+    (40) exp -> . term
+    (44) term -> . factor term1
+    (45) term -> . factor
+    (48) factor -> . OPENCOND expression CLOSECOND
+    (49) factor -> . factor1
+    (50) factor -> . MINUS factor1
+    (51) factor -> . PLUS factor1
+    (52) factor1 -> . constant
+    (53) constant -> . IDENTIFIER
+    (54) constant -> . INTEGER
+    (55) constant -> . FLOATNUM
+
+    OPENCOND        shift and go to state 37
+    MINUS           shift and go to state 43
+    PLUS            shift and go to state 41
+    IDENTIFIER      shift and go to state 34
+    INTEGER         shift and go to state 44
+    FLOATNUM        shift and go to state 42
+
+    expression                     shift and go to state 50
+    factor1                        shift and go to state 45
+    constant                       shift and go to state 36
+    factor                         shift and go to state 38
+    exp                            shift and go to state 39
+    term                           shift and go to state 40
+
+state 28
+
+    (19) block1 -> estat block1 .
+
+    $end            reduce using rule 19 (block1 -> estat block1 .)
+    ELSE            reduce using rule 19 (block1 -> estat block1 .)
+    ENDLINE         reduce using rule 19 (block1 -> estat block1 .)
+
+
+state 29
+
+    (8) vars2 -> vars3 .
+
+    OPENEXP         reduce using rule 8 (vars2 -> vars3 .)
+
+
+state 30
+
+    (6) vars1 -> IDENTIFIER vars2 .
+
+    OPENEXP         reduce using rule 6 (vars1 -> IDENTIFIER vars2 .)
+
+
+state 31
+
+    (10) vars3 -> ASSIGN . TYPEINT ENDLINE
+    (11) vars3 -> ASSIGN . TYPEFLOAT ENDLINE
+    (12) vars3 -> ASSIGN . TYPEINT ENDLINE vars1
+    (13) vars3 -> ASSIGN . TYPEFLOAT ENDLINE vars1
+    (14) vars3 -> ASSIGN . TYPEINT error
+    (15) vars3 -> ASSIGN . TYPEFLOAT error
+    (16) vars3 -> ASSIGN . TYPEINT error vars1
+    (17) vars3 -> ASSIGN . TYPEFLOAT error vars1
+
+    TYPEINT         shift and go to state 51
+    TYPEFLOAT       shift and go to state 52
+
+
+state 32
+
+    (9) vars2 -> SEPARATE . vars1
+    (6) vars1 -> . IDENTIFIER vars2
+    (7) vars1 -> . error vars2
+
+    IDENTIFIER      shift and go to state 21
+    error           shift and go to state 22
+
+    vars1                          shift and go to state 53
+
+state 33
+
+    (7) vars1 -> error vars2 .
+
+    OPENEXP         reduce using rule 7 (vars1 -> error vars2 .)
+
+
+state 34
+
+    (53) constant -> IDENTIFIER .
+
+    TIMES           reduce using rule 53 (constant -> IDENTIFIER .)
+    DIVIDE          reduce using rule 53 (constant -> IDENTIFIER .)
+    MINUS           reduce using rule 53 (constant -> IDENTIFIER .)
+    PLUS            reduce using rule 53 (constant -> IDENTIFIER .)
+    error           reduce using rule 53 (constant -> IDENTIFIER .)
+    LESSTHAN        reduce using rule 53 (constant -> IDENTIFIER .)
+    MORETHAN        reduce using rule 53 (constant -> IDENTIFIER .)
+    DIFFERENT       reduce using rule 53 (constant -> IDENTIFIER .)
+    ENDLINE         reduce using rule 53 (constant -> IDENTIFIER .)
+    SEPARATE        reduce using rule 53 (constant -> IDENTIFIER .)
+    CLOSECOND       reduce using rule 53 (constant -> IDENTIFIER .)
+
+
+state 35
+
+    (24) asignation -> IDENTIFIER EQUALS expression . ENDLINE
+
+    ENDLINE         shift and go to state 54
+
+
+state 36
+
+    (52) factor1 -> constant .
+
+    TIMES           reduce using rule 52 (factor1 -> constant .)
+    DIVIDE          reduce using rule 52 (factor1 -> constant .)
+    MINUS           reduce using rule 52 (factor1 -> constant .)
+    PLUS            reduce using rule 52 (factor1 -> constant .)
+    error           reduce using rule 52 (factor1 -> constant .)
+    ENDLINE         reduce using rule 52 (factor1 -> constant .)
+    SEPARATE        reduce using rule 52 (factor1 -> constant .)
+    CLOSECOND       reduce using rule 52 (factor1 -> constant .)
+    LESSTHAN        reduce using rule 52 (factor1 -> constant .)
+    MORETHAN        reduce using rule 52 (factor1 -> constant .)
+    DIFFERENT       reduce using rule 52 (factor1 -> constant .)
+
+
+state 37
+
+    (48) factor -> OPENCOND . expression CLOSECOND
+    (34) expression -> . exp LESSTHAN exp
+    (35) expression -> . exp MORETHAN exp
+    (36) expression -> . exp DIFFERENT exp
+    (37) expression -> . exp
+    (39) exp -> . term exp1
+    (40) exp -> . term
+    (44) term -> . factor term1
+    (45) term -> . factor
+    (48) factor -> . OPENCOND expression CLOSECOND
+    (49) factor -> . factor1
+    (50) factor -> . MINUS factor1
+    (51) factor -> . PLUS factor1
+    (52) factor1 -> . constant
+    (53) constant -> . IDENTIFIER
+    (54) constant -> . INTEGER
+    (55) constant -> . FLOATNUM
+
+    OPENCOND        shift and go to state 37
+    MINUS           shift and go to state 43
+    PLUS            shift and go to state 41
+    IDENTIFIER      shift and go to state 34
+    INTEGER         shift and go to state 44
+    FLOATNUM        shift and go to state 42
+
+    factor1                        shift and go to state 45
+    expression                     shift and go to state 55
+    constant                       shift and go to state 36
+    factor                         shift and go to state 38
+    exp                            shift and go to state 39
+    term                           shift and go to state 40
+
+state 38
+
+    (44) term -> factor . term1
+    (45) term -> factor .
+    (46) term1 -> . TIMES term
+    (47) term1 -> . DIVIDE term
+
+    MINUS           reduce using rule 45 (term -> factor .)
+    PLUS            reduce using rule 45 (term -> factor .)
+    error           reduce using rule 45 (term -> factor .)
+    LESSTHAN        reduce using rule 45 (term -> factor .)
+    MORETHAN        reduce using rule 45 (term -> factor .)
+    DIFFERENT       reduce using rule 45 (term -> factor .)
+    CLOSECOND       reduce using rule 45 (term -> factor .)
+    ENDLINE         reduce using rule 45 (term -> factor .)
+    SEPARATE        reduce using rule 45 (term -> factor .)
+    TIMES           shift and go to state 58
+    DIVIDE          shift and go to state 56
+
+    term1                          shift and go to state 57
+
+state 39
+
+    (34) expression -> exp . LESSTHAN exp
+    (35) expression -> exp . MORETHAN exp
+    (36) expression -> exp . DIFFERENT exp
+    (37) expression -> exp .
+
+    LESSTHAN        shift and go to state 59
+    MORETHAN        shift and go to state 60
+    DIFFERENT       shift and go to state 61
+    ENDLINE         reduce using rule 37 (expression -> exp .)
+    CLOSECOND       reduce using rule 37 (expression -> exp .)
+    SEPARATE        reduce using rule 37 (expression -> exp .)
+
+
+state 40
+
+    (39) exp -> term . exp1
+    (40) exp -> term .
+    (41) exp1 -> . MINUS exp
+    (42) exp1 -> . PLUS exp
+    (43) exp1 -> . error exp
+
+    LESSTHAN        reduce using rule 40 (exp -> term .)
+    MORETHAN        reduce using rule 40 (exp -> term .)
+    DIFFERENT       reduce using rule 40 (exp -> term .)
+    SEPARATE        reduce using rule 40 (exp -> term .)
+    CLOSECOND       reduce using rule 40 (exp -> term .)
+    ENDLINE         reduce using rule 40 (exp -> term .)
+    MINUS           shift and go to state 64
+    PLUS            shift and go to state 63
+    error           shift and go to state 65
+
+    exp1                           shift and go to state 62
+
+state 41
+
+    (51) factor -> PLUS . factor1
+    (52) factor1 -> . constant
+    (53) constant -> . IDENTIFIER
+    (54) constant -> . INTEGER
+    (55) constant -> . FLOATNUM
+
+    IDENTIFIER      shift and go to state 34
+    INTEGER         shift and go to state 44
+    FLOATNUM        shift and go to state 42
+
+    factor1                        shift and go to state 66
+    constant                       shift and go to state 36
+
+state 42
+
+    (55) constant -> FLOATNUM .
+
+    TIMES           reduce using rule 55 (constant -> FLOATNUM .)
+    DIVIDE          reduce using rule 55 (constant -> FLOATNUM .)
+    MINUS           reduce using rule 55 (constant -> FLOATNUM .)
+    PLUS            reduce using rule 55 (constant -> FLOATNUM .)
+    error           reduce using rule 55 (constant -> FLOATNUM .)
+    LESSTHAN        reduce using rule 55 (constant -> FLOATNUM .)
+    MORETHAN        reduce using rule 55 (constant -> FLOATNUM .)
+    DIFFERENT       reduce using rule 55 (constant -> FLOATNUM .)
+    ENDLINE         reduce using rule 55 (constant -> FLOATNUM .)
+    SEPARATE        reduce using rule 55 (constant -> FLOATNUM .)
+    CLOSECOND       reduce using rule 55 (constant -> FLOATNUM .)
+
+
+state 43
+
+    (50) factor -> MINUS . factor1
+    (52) factor1 -> . constant
+    (53) constant -> . IDENTIFIER
+    (54) constant -> . INTEGER
+    (55) constant -> . FLOATNUM
+
+    IDENTIFIER      shift and go to state 34
+    INTEGER         shift and go to state 44
+    FLOATNUM        shift and go to state 42
+
+    factor1                        shift and go to state 67
+    constant                       shift and go to state 36
+
+state 44
+
+    (54) constant -> INTEGER .
+
+    TIMES           reduce using rule 54 (constant -> INTEGER .)
+    DIVIDE          reduce using rule 54 (constant -> INTEGER .)
+    MINUS           reduce using rule 54 (constant -> INTEGER .)
+    PLUS            reduce using rule 54 (constant -> INTEGER .)
+    error           reduce using rule 54 (constant -> INTEGER .)
+    LESSTHAN        reduce using rule 54 (constant -> INTEGER .)
+    MORETHAN        reduce using rule 54 (constant -> INTEGER .)
+    DIFFERENT       reduce using rule 54 (constant -> INTEGER .)
+    ENDLINE         reduce using rule 54 (constant -> INTEGER .)
+    SEPARATE        reduce using rule 54 (constant -> INTEGER .)
+    CLOSECOND       reduce using rule 54 (constant -> INTEGER .)
+
+
+state 45
+
+    (49) factor -> factor1 .
+
+    TIMES           reduce using rule 49 (factor -> factor1 .)
+    DIVIDE          reduce using rule 49 (factor -> factor1 .)
+    MINUS           reduce using rule 49 (factor -> factor1 .)
+    PLUS            reduce using rule 49 (factor -> factor1 .)
+    error           reduce using rule 49 (factor -> factor1 .)
+    ENDLINE         reduce using rule 49 (factor -> factor1 .)
+    SEPARATE        reduce using rule 49 (factor -> factor1 .)
+    CLOSECOND       reduce using rule 49 (factor -> factor1 .)
+    LESSTHAN        reduce using rule 49 (factor -> factor1 .)
+    MORETHAN        reduce using rule 49 (factor -> factor1 .)
+    DIFFERENT       reduce using rule 49 (factor -> factor1 .)
+
+
+state 46
+
+    (32) writing1 -> STRING .
+
+    CLOSECOND       reduce using rule 32 (writing1 -> STRING .)
+
+
+state 47
+
+    (30) writing1 -> expression .
+    (31) writing1 -> expression . SEPARATE writing1
+
+    CLOSECOND       reduce using rule 30 (writing1 -> expression .)
+    SEPARATE        shift and go to state 68
+
+
+state 48
+
+    (29) writing -> PRINT OPENCOND writing1 . CLOSECOND ENDLINE
+    (33) writing -> PRINT OPENCOND writing1 . CLOSECOND error
+
+    CLOSECOND       shift and go to state 69
+
+
+state 49
+
+    (25) condition -> IF OPENCOND expression . CLOSECOND block condition1 ENDLINE
+
+    CLOSECOND       shift and go to state 70
+
+
+state 50
+
+    (26) condition -> IF error expression . CLOSECOND block condition1 ENDLINE
+
+    CLOSECOND       shift and go to state 71
+
+
+state 51
+
+    (10) vars3 -> ASSIGN TYPEINT . ENDLINE
+    (12) vars3 -> ASSIGN TYPEINT . ENDLINE vars1
+    (14) vars3 -> ASSIGN TYPEINT . error
+    (16) vars3 -> ASSIGN TYPEINT . error vars1
+
+    ENDLINE         shift and go to state 72
+    error           shift and go to state 73
+
+
+state 52
+
+    (11) vars3 -> ASSIGN TYPEFLOAT . ENDLINE
+    (13) vars3 -> ASSIGN TYPEFLOAT . ENDLINE vars1
+    (15) vars3 -> ASSIGN TYPEFLOAT . error
+    (17) vars3 -> ASSIGN TYPEFLOAT . error vars1
+
+    ENDLINE         shift and go to state 74
+    error           shift and go to state 75
+
+
+state 53
+
+    (9) vars2 -> SEPARATE vars1 .
+
+    OPENEXP         reduce using rule 9 (vars2 -> SEPARATE vars1 .)
+
+
+state 54
+
+    (24) asignation -> IDENTIFIER EQUALS expression ENDLINE .
+
+    CLOSEEXP        reduce using rule 24 (asignation -> IDENTIFIER EQUALS expression ENDLINE .)
+    IDENTIFIER      reduce using rule 24 (asignation -> IDENTIFIER EQUALS expression ENDLINE .)
+    IF              reduce using rule 24 (asignation -> IDENTIFIER EQUALS expression ENDLINE .)
+    PRINT           reduce using rule 24 (asignation -> IDENTIFIER EQUALS expression ENDLINE .)
+
+
+state 55
+
+    (48) factor -> OPENCOND expression . CLOSECOND
+
+    CLOSECOND       shift and go to state 76
+
+
+state 56
+
+    (47) term1 -> DIVIDE . term
+    (44) term -> . factor term1
+    (45) term -> . factor
+    (48) factor -> . OPENCOND expression CLOSECOND
+    (49) factor -> . factor1
+    (50) factor -> . MINUS factor1
+    (51) factor -> . PLUS factor1
+    (52) factor1 -> . constant
+    (53) constant -> . IDENTIFIER
+    (54) constant -> . INTEGER
+    (55) constant -> . FLOATNUM
+
+    OPENCOND        shift and go to state 37
+    MINUS           shift and go to state 43
+    PLUS            shift and go to state 41
+    IDENTIFIER      shift and go to state 34
+    INTEGER         shift and go to state 44
+    FLOATNUM        shift and go to state 42
+
+    constant                       shift and go to state 36
+    factor                         shift and go to state 38
+    factor1                        shift and go to state 45
+    term                           shift and go to state 77
+
+state 57
+
+    (44) term -> factor term1 .
+
+    MINUS           reduce using rule 44 (term -> factor term1 .)
+    PLUS            reduce using rule 44 (term -> factor term1 .)
+    error           reduce using rule 44 (term -> factor term1 .)
+    LESSTHAN        reduce using rule 44 (term -> factor term1 .)
+    MORETHAN        reduce using rule 44 (term -> factor term1 .)
+    DIFFERENT       reduce using rule 44 (term -> factor term1 .)
+    CLOSECOND       reduce using rule 44 (term -> factor term1 .)
+    ENDLINE         reduce using rule 44 (term -> factor term1 .)
+    SEPARATE        reduce using rule 44 (term -> factor term1 .)
+
+
+state 58
+
+    (46) term1 -> TIMES . term
+    (44) term -> . factor term1
+    (45) term -> . factor
+    (48) factor -> . OPENCOND expression CLOSECOND
+    (49) factor -> . factor1
+    (50) factor -> . MINUS factor1
+    (51) factor -> . PLUS factor1
+    (52) factor1 -> . constant
+    (53) constant -> . IDENTIFIER
+    (54) constant -> . INTEGER
+    (55) constant -> . FLOATNUM
+
+    OPENCOND        shift and go to state 37
+    MINUS           shift and go to state 43
+    PLUS            shift and go to state 41
+    IDENTIFIER      shift and go to state 34
+    INTEGER         shift and go to state 44
+    FLOATNUM        shift and go to state 42
+
+    constant                       shift and go to state 36
+    factor                         shift and go to state 38
+    factor1                        shift and go to state 45
+    term                           shift and go to state 78
+
+state 59
+
+    (34) expression -> exp LESSTHAN . exp
+    (39) exp -> . term exp1
+    (40) exp -> . term
+    (44) term -> . factor term1
+    (45) term -> . factor
+    (48) factor -> . OPENCOND expression CLOSECOND
+    (49) factor -> . factor1
+    (50) factor -> . MINUS factor1
+    (51) factor -> . PLUS factor1
+    (52) factor1 -> . constant
+    (53) constant -> . IDENTIFIER
+    (54) constant -> . INTEGER
+    (55) constant -> . FLOATNUM
+
+    OPENCOND        shift and go to state 37
+    MINUS           shift and go to state 43
+    PLUS            shift and go to state 41
+    IDENTIFIER      shift and go to state 34
+    INTEGER         shift and go to state 44
+    FLOATNUM        shift and go to state 42
+
+    factor1                        shift and go to state 45
+    constant                       shift and go to state 36
+    factor                         shift and go to state 38
+    exp                            shift and go to state 79
+    term                           shift and go to state 40
+
+state 60
+
+    (35) expression -> exp MORETHAN . exp
+    (39) exp -> . term exp1
+    (40) exp -> . term
+    (44) term -> . factor term1
+    (45) term -> . factor
+    (48) factor -> . OPENCOND expression CLOSECOND
+    (49) factor -> . factor1
+    (50) factor -> . MINUS factor1
+    (51) factor -> . PLUS factor1
+    (52) factor1 -> . constant
+    (53) constant -> . IDENTIFIER
+    (54) constant -> . INTEGER
+    (55) constant -> . FLOATNUM
+
+    OPENCOND        shift and go to state 37
+    MINUS           shift and go to state 43
+    PLUS            shift and go to state 41
+    IDENTIFIER      shift and go to state 34
+    INTEGER         shift and go to state 44
+    FLOATNUM        shift and go to state 42
+
+    factor1                        shift and go to state 45
+    constant                       shift and go to state 36
+    factor                         shift and go to state 38
+    exp                            shift and go to state 80
+    term                           shift and go to state 40
+
+state 61
+
+    (36) expression -> exp DIFFERENT . exp
+    (39) exp -> . term exp1
+    (40) exp -> . term
+    (44) term -> . factor term1
+    (45) term -> . factor
+    (48) factor -> . OPENCOND expression CLOSECOND
+    (49) factor -> . factor1
+    (50) factor -> . MINUS factor1
+    (51) factor -> . PLUS factor1
+    (52) factor1 -> . constant
+    (53) constant -> . IDENTIFIER
+    (54) constant -> . INTEGER
+    (55) constant -> . FLOATNUM
+
+    OPENCOND        shift and go to state 37
+    MINUS           shift and go to state 43
+    PLUS            shift and go to state 41
+    IDENTIFIER      shift and go to state 34
+    INTEGER         shift and go to state 44
+    FLOATNUM        shift and go to state 42
+
+    factor1                        shift and go to state 45
+    constant                       shift and go to state 36
+    factor                         shift and go to state 38
+    exp                            shift and go to state 81
+    term                           shift and go to state 40
+
+state 62
+
+    (39) exp -> term exp1 .
+
+    LESSTHAN        reduce using rule 39 (exp -> term exp1 .)
+    MORETHAN        reduce using rule 39 (exp -> term exp1 .)
+    DIFFERENT       reduce using rule 39 (exp -> term exp1 .)
+    SEPARATE        reduce using rule 39 (exp -> term exp1 .)
+    CLOSECOND       reduce using rule 39 (exp -> term exp1 .)
+    ENDLINE         reduce using rule 39 (exp -> term exp1 .)
+
+
+state 63
+
+    (42) exp1 -> PLUS . exp
+    (39) exp -> . term exp1
+    (40) exp -> . term
+    (44) term -> . factor term1
+    (45) term -> . factor
+    (48) factor -> . OPENCOND expression CLOSECOND
+    (49) factor -> . factor1
+    (50) factor -> . MINUS factor1
+    (51) factor -> . PLUS factor1
+    (52) factor1 -> . constant
+    (53) constant -> . IDENTIFIER
+    (54) constant -> . INTEGER
+    (55) constant -> . FLOATNUM
+
+    OPENCOND        shift and go to state 37
+    MINUS           shift and go to state 43
+    PLUS            shift and go to state 41
+    IDENTIFIER      shift and go to state 34
+    INTEGER         shift and go to state 44
+    FLOATNUM        shift and go to state 42
+
+    factor1                        shift and go to state 45
+    constant                       shift and go to state 36
+    factor                         shift and go to state 38
+    exp                            shift and go to state 82
+    term                           shift and go to state 40
+
+state 64
+
+    (41) exp1 -> MINUS . exp
+    (39) exp -> . term exp1
+    (40) exp -> . term
+    (44) term -> . factor term1
+    (45) term -> . factor
+    (48) factor -> . OPENCOND expression CLOSECOND
+    (49) factor -> . factor1
+    (50) factor -> . MINUS factor1
+    (51) factor -> . PLUS factor1
+    (52) factor1 -> . constant
+    (53) constant -> . IDENTIFIER
+    (54) constant -> . INTEGER
+    (55) constant -> . FLOATNUM
+
+    OPENCOND        shift and go to state 37
+    MINUS           shift and go to state 43
+    PLUS            shift and go to state 41
+    IDENTIFIER      shift and go to state 34
+    INTEGER         shift and go to state 44
+    FLOATNUM        shift and go to state 42
+
+    factor1                        shift and go to state 45
+    constant                       shift and go to state 36
+    factor                         shift and go to state 38
+    exp                            shift and go to state 83
+    term                           shift and go to state 40
+
+state 65
+
+    (43) exp1 -> error . exp
+    (39) exp -> . term exp1
+    (40) exp -> . term
+    (44) term -> . factor term1
+    (45) term -> . factor
+    (48) factor -> . OPENCOND expression CLOSECOND
+    (49) factor -> . factor1
+    (50) factor -> . MINUS factor1
+    (51) factor -> . PLUS factor1
+    (52) factor1 -> . constant
+    (53) constant -> . IDENTIFIER
+    (54) constant -> . INTEGER
+    (55) constant -> . FLOATNUM
+
+    OPENCOND        shift and go to state 37
+    MINUS           shift and go to state 43
+    PLUS            shift and go to state 41
+    IDENTIFIER      shift and go to state 34
+    INTEGER         shift and go to state 44
+    FLOATNUM        shift and go to state 42
+
+    factor1                        shift and go to state 45
+    constant                       shift and go to state 36
+    factor                         shift and go to state 38
+    exp                            shift and go to state 84
+    term                           shift and go to state 40
+
+state 66
+
+    (51) factor -> PLUS factor1 .
+
+    TIMES           reduce using rule 51 (factor -> PLUS factor1 .)
+    DIVIDE          reduce using rule 51 (factor -> PLUS factor1 .)
+    MINUS           reduce using rule 51 (factor -> PLUS factor1 .)
+    PLUS            reduce using rule 51 (factor -> PLUS factor1 .)
+    error           reduce using rule 51 (factor -> PLUS factor1 .)
+    ENDLINE         reduce using rule 51 (factor -> PLUS factor1 .)
+    SEPARATE        reduce using rule 51 (factor -> PLUS factor1 .)
+    CLOSECOND       reduce using rule 51 (factor -> PLUS factor1 .)
+    LESSTHAN        reduce using rule 51 (factor -> PLUS factor1 .)
+    MORETHAN        reduce using rule 51 (factor -> PLUS factor1 .)
+    DIFFERENT       reduce using rule 51 (factor -> PLUS factor1 .)
+
+
+state 67
+
+    (50) factor -> MINUS factor1 .
+
+    TIMES           reduce using rule 50 (factor -> MINUS factor1 .)
+    DIVIDE          reduce using rule 50 (factor -> MINUS factor1 .)
+    MINUS           reduce using rule 50 (factor -> MINUS factor1 .)
+    PLUS            reduce using rule 50 (factor -> MINUS factor1 .)
+    error           reduce using rule 50 (factor -> MINUS factor1 .)
+    ENDLINE         reduce using rule 50 (factor -> MINUS factor1 .)
+    SEPARATE        reduce using rule 50 (factor -> MINUS factor1 .)
+    CLOSECOND       reduce using rule 50 (factor -> MINUS factor1 .)
+    LESSTHAN        reduce using rule 50 (factor -> MINUS factor1 .)
+    MORETHAN        reduce using rule 50 (factor -> MINUS factor1 .)
+    DIFFERENT       reduce using rule 50 (factor -> MINUS factor1 .)
+
+
+state 68
+
+    (31) writing1 -> expression SEPARATE . writing1
+    (30) writing1 -> . expression
+    (31) writing1 -> . expression SEPARATE writing1
+    (32) writing1 -> . STRING
+    (34) expression -> . exp LESSTHAN exp
+    (35) expression -> . exp MORETHAN exp
+    (36) expression -> . exp DIFFERENT exp
+    (37) expression -> . exp
+    (39) exp -> . term exp1
+    (40) exp -> . term
+    (44) term -> . factor term1
+    (45) term -> . factor
+    (48) factor -> . OPENCOND expression CLOSECOND
+    (49) factor -> . factor1
+    (50) factor -> . MINUS factor1
+    (51) factor -> . PLUS factor1
+    (52) factor1 -> . constant
+    (53) constant -> . IDENTIFIER
+    (54) constant -> . INTEGER
+    (55) constant -> . FLOATNUM
+
+    STRING          shift and go to state 46
+    OPENCOND        shift and go to state 37
+    MINUS           shift and go to state 43
+    PLUS            shift and go to state 41
+    IDENTIFIER      shift and go to state 34
+    INTEGER         shift and go to state 44
+    FLOATNUM        shift and go to state 42
+
+    expression                     shift and go to state 47
+    factor1                        shift and go to state 45
+    constant                       shift and go to state 36
+    factor                         shift and go to state 38
+    writing1                       shift and go to state 85
+    exp                            shift and go to state 39
+    term                           shift and go to state 40
+
+state 69
+
+    (29) writing -> PRINT OPENCOND writing1 CLOSECOND . ENDLINE
+    (33) writing -> PRINT OPENCOND writing1 CLOSECOND . error
+
+    ENDLINE         shift and go to state 87
+    error           shift and go to state 86
+
+
+state 70
+
+    (25) condition -> IF OPENCOND expression CLOSECOND . block condition1 ENDLINE
+    (18) block -> . OPENEXP block1
+
+    OPENEXP         shift and go to state 5
+
+    block                          shift and go to state 88
+
+state 71
+
+    (26) condition -> IF error expression CLOSECOND . block condition1 ENDLINE
+    (18) block -> . OPENEXP block1
+
+    OPENEXP         shift and go to state 5
+
+    block                          shift and go to state 89
+
+state 72
+
+    (10) vars3 -> ASSIGN TYPEINT ENDLINE .
+    (12) vars3 -> ASSIGN TYPEINT ENDLINE . vars1
+    (6) vars1 -> . IDENTIFIER vars2
+    (7) vars1 -> . error vars2
+
+    OPENEXP         reduce using rule 10 (vars3 -> ASSIGN TYPEINT ENDLINE .)
+    IDENTIFIER      shift and go to state 21
+    error           shift and go to state 22
+
+    vars1                          shift and go to state 90
+
+state 73
+
+    (14) vars3 -> ASSIGN TYPEINT error .
+    (16) vars3 -> ASSIGN TYPEINT error . vars1
+    (6) vars1 -> . IDENTIFIER vars2
+    (7) vars1 -> . error vars2
+
+    OPENEXP         reduce using rule 14 (vars3 -> ASSIGN TYPEINT error .)
+    IDENTIFIER      shift and go to state 21
+    error           shift and go to state 22
+
+    vars1                          shift and go to state 91
+
+state 74
+
+    (11) vars3 -> ASSIGN TYPEFLOAT ENDLINE .
+    (13) vars3 -> ASSIGN TYPEFLOAT ENDLINE . vars1
+    (6) vars1 -> . IDENTIFIER vars2
+    (7) vars1 -> . error vars2
+
+    OPENEXP         reduce using rule 11 (vars3 -> ASSIGN TYPEFLOAT ENDLINE .)
+    IDENTIFIER      shift and go to state 21
+    error           shift and go to state 22
+
+    vars1                          shift and go to state 92
+
+state 75
+
+    (15) vars3 -> ASSIGN TYPEFLOAT error .
+    (17) vars3 -> ASSIGN TYPEFLOAT error . vars1
+    (6) vars1 -> . IDENTIFIER vars2
+    (7) vars1 -> . error vars2
+
+    OPENEXP         reduce using rule 15 (vars3 -> ASSIGN TYPEFLOAT error .)
+    IDENTIFIER      shift and go to state 21
+    error           shift and go to state 22
+
+    vars1                          shift and go to state 93
+
+state 76
+
+    (48) factor -> OPENCOND expression CLOSECOND .
+
+    TIMES           reduce using rule 48 (factor -> OPENCOND expression CLOSECOND .)
+    DIVIDE          reduce using rule 48 (factor -> OPENCOND expression CLOSECOND .)
+    MINUS           reduce using rule 48 (factor -> OPENCOND expression CLOSECOND .)
+    PLUS            reduce using rule 48 (factor -> OPENCOND expression CLOSECOND .)
+    error           reduce using rule 48 (factor -> OPENCOND expression CLOSECOND .)
+    ENDLINE         reduce using rule 48 (factor -> OPENCOND expression CLOSECOND .)
+    SEPARATE        reduce using rule 48 (factor -> OPENCOND expression CLOSECOND .)
+    CLOSECOND       reduce using rule 48 (factor -> OPENCOND expression CLOSECOND .)
+    LESSTHAN        reduce using rule 48 (factor -> OPENCOND expression CLOSECOND .)
+    MORETHAN        reduce using rule 48 (factor -> OPENCOND expression CLOSECOND .)
+    DIFFERENT       reduce using rule 48 (factor -> OPENCOND expression CLOSECOND .)
+
+
+state 77
+
+    (47) term1 -> DIVIDE term .
+
+    MINUS           reduce using rule 47 (term1 -> DIVIDE term .)
+    PLUS            reduce using rule 47 (term1 -> DIVIDE term .)
+    error           reduce using rule 47 (term1 -> DIVIDE term .)
+    LESSTHAN        reduce using rule 47 (term1 -> DIVIDE term .)
+    MORETHAN        reduce using rule 47 (term1 -> DIVIDE term .)
+    DIFFERENT       reduce using rule 47 (term1 -> DIVIDE term .)
+    ENDLINE         reduce using rule 47 (term1 -> DIVIDE term .)
+    SEPARATE        reduce using rule 47 (term1 -> DIVIDE term .)
+    CLOSECOND       reduce using rule 47 (term1 -> DIVIDE term .)
+
+
+state 78
+
+    (46) term1 -> TIMES term .
+
+    MINUS           reduce using rule 46 (term1 -> TIMES term .)
+    PLUS            reduce using rule 46 (term1 -> TIMES term .)
+    error           reduce using rule 46 (term1 -> TIMES term .)
+    LESSTHAN        reduce using rule 46 (term1 -> TIMES term .)
+    MORETHAN        reduce using rule 46 (term1 -> TIMES term .)
+    DIFFERENT       reduce using rule 46 (term1 -> TIMES term .)
+    ENDLINE         reduce using rule 46 (term1 -> TIMES term .)
+    SEPARATE        reduce using rule 46 (term1 -> TIMES term .)
+    CLOSECOND       reduce using rule 46 (term1 -> TIMES term .)
+
+
+state 79
+
+    (34) expression -> exp LESSTHAN exp .
+
+    ENDLINE         reduce using rule 34 (expression -> exp LESSTHAN exp .)
+    CLOSECOND       reduce using rule 34 (expression -> exp LESSTHAN exp .)
+    SEPARATE        reduce using rule 34 (expression -> exp LESSTHAN exp .)
+
+
+state 80
+
+    (35) expression -> exp MORETHAN exp .
+
+    ENDLINE         reduce using rule 35 (expression -> exp MORETHAN exp .)
+    CLOSECOND       reduce using rule 35 (expression -> exp MORETHAN exp .)
+    SEPARATE        reduce using rule 35 (expression -> exp MORETHAN exp .)
+
+
+state 81
+
+    (36) expression -> exp DIFFERENT exp .
+
+    ENDLINE         reduce using rule 36 (expression -> exp DIFFERENT exp .)
+    CLOSECOND       reduce using rule 36 (expression -> exp DIFFERENT exp .)
+    SEPARATE        reduce using rule 36 (expression -> exp DIFFERENT exp .)
+
+
+state 82
+
+    (42) exp1 -> PLUS exp .
+
+    LESSTHAN        reduce using rule 42 (exp1 -> PLUS exp .)
+    MORETHAN        reduce using rule 42 (exp1 -> PLUS exp .)
+    DIFFERENT       reduce using rule 42 (exp1 -> PLUS exp .)
+    ENDLINE         reduce using rule 42 (exp1 -> PLUS exp .)
+    SEPARATE        reduce using rule 42 (exp1 -> PLUS exp .)
+    CLOSECOND       reduce using rule 42 (exp1 -> PLUS exp .)
+
+
+state 83
+
+    (41) exp1 -> MINUS exp .
+
+    LESSTHAN        reduce using rule 41 (exp1 -> MINUS exp .)
+    MORETHAN        reduce using rule 41 (exp1 -> MINUS exp .)
+    DIFFERENT       reduce using rule 41 (exp1 -> MINUS exp .)
+    ENDLINE         reduce using rule 41 (exp1 -> MINUS exp .)
+    SEPARATE        reduce using rule 41 (exp1 -> MINUS exp .)
+    CLOSECOND       reduce using rule 41 (exp1 -> MINUS exp .)
+
+
+state 84
+
+    (43) exp1 -> error exp .
+
+    LESSTHAN        reduce using rule 43 (exp1 -> error exp .)
+    MORETHAN        reduce using rule 43 (exp1 -> error exp .)
+    DIFFERENT       reduce using rule 43 (exp1 -> error exp .)
+    ENDLINE         reduce using rule 43 (exp1 -> error exp .)
+    SEPARATE        reduce using rule 43 (exp1 -> error exp .)
+    CLOSECOND       reduce using rule 43 (exp1 -> error exp .)
+
+
+state 85
+
+    (31) writing1 -> expression SEPARATE writing1 .
+
+    CLOSECOND       reduce using rule 31 (writing1 -> expression SEPARATE writing1 .)
+
+
+state 86
+
+    (33) writing -> PRINT OPENCOND writing1 CLOSECOND error .
+
+    CLOSEEXP        reduce using rule 33 (writing -> PRINT OPENCOND writing1 CLOSECOND error .)
+    IDENTIFIER      reduce using rule 33 (writing -> PRINT OPENCOND writing1 CLOSECOND error .)
+    IF              reduce using rule 33 (writing -> PRINT OPENCOND writing1 CLOSECOND error .)
+    PRINT           reduce using rule 33 (writing -> PRINT OPENCOND writing1 CLOSECOND error .)
+
+
+state 87
+
+    (29) writing -> PRINT OPENCOND writing1 CLOSECOND ENDLINE .
+
+    CLOSEEXP        reduce using rule 29 (writing -> PRINT OPENCOND writing1 CLOSECOND ENDLINE .)
+    IDENTIFIER      reduce using rule 29 (writing -> PRINT OPENCOND writing1 CLOSECOND ENDLINE .)
+    IF              reduce using rule 29 (writing -> PRINT OPENCOND writing1 CLOSECOND ENDLINE .)
+    PRINT           reduce using rule 29 (writing -> PRINT OPENCOND writing1 CLOSECOND ENDLINE .)
+
+
+state 88
+
+    (25) condition -> IF OPENCOND expression CLOSECOND block . condition1 ENDLINE
+    (27) condition1 -> . empty
+    (28) condition1 -> . ELSE block
+    (38) empty -> .
+
+    ELSE            shift and go to state 95
+    ENDLINE         reduce using rule 38 (empty -> .)
+
+    empty                          shift and go to state 94
+    condition1                     shift and go to state 96
+
+state 89
+
+    (26) condition -> IF error expression CLOSECOND block . condition1 ENDLINE
+    (27) condition1 -> . empty
+    (28) condition1 -> . ELSE block
+    (38) empty -> .
+
+    ELSE            shift and go to state 95
+    ENDLINE         reduce using rule 38 (empty -> .)
+
+    empty                          shift and go to state 94
+    condition1                     shift and go to state 97
+
+state 90
+
+    (12) vars3 -> ASSIGN TYPEINT ENDLINE vars1 .
+
+    OPENEXP         reduce using rule 12 (vars3 -> ASSIGN TYPEINT ENDLINE vars1 .)
+
+
+state 91
+
+    (16) vars3 -> ASSIGN TYPEINT error vars1 .
+
+    OPENEXP         reduce using rule 16 (vars3 -> ASSIGN TYPEINT error vars1 .)
+
+
+state 92
+
+    (13) vars3 -> ASSIGN TYPEFLOAT ENDLINE vars1 .
+
+    OPENEXP         reduce using rule 13 (vars3 -> ASSIGN TYPEFLOAT ENDLINE vars1 .)
+
+
+state 93
+
+    (17) vars3 -> ASSIGN TYPEFLOAT error vars1 .
+
+    OPENEXP         reduce using rule 17 (vars3 -> ASSIGN TYPEFLOAT error vars1 .)
+
+
+state 94
+
+    (27) condition1 -> empty .
+
+    ENDLINE         reduce using rule 27 (condition1 -> empty .)
+
+
+state 95
+
+    (28) condition1 -> ELSE . block
+    (18) block -> . OPENEXP block1
+
+    OPENEXP         shift and go to state 5
+
+    block                          shift and go to state 98
+
+state 96
+
+    (25) condition -> IF OPENCOND expression CLOSECOND block condition1 . ENDLINE
+
+    ENDLINE         shift and go to state 99
+
+
+state 97
+
+    (26) condition -> IF error expression CLOSECOND block condition1 . ENDLINE
+
+    ENDLINE         shift and go to state 100
+
+
+state 98
+
+    (28) condition1 -> ELSE block .
+
+    ENDLINE         reduce using rule 28 (condition1 -> ELSE block .)
+
+
+state 99
+
+    (25) condition -> IF OPENCOND expression CLOSECOND block condition1 ENDLINE .
+
+    CLOSEEXP        reduce using rule 25 (condition -> IF OPENCOND expression CLOSECOND block condition1 ENDLINE .)
+    IDENTIFIER      reduce using rule 25 (condition -> IF OPENCOND expression CLOSECOND block condition1 ENDLINE .)
+    IF              reduce using rule 25 (condition -> IF OPENCOND expression CLOSECOND block condition1 ENDLINE .)
+    PRINT           reduce using rule 25 (condition -> IF OPENCOND expression CLOSECOND block condition1 ENDLINE .)
+
+
+state 100
+
+    (26) condition -> IF error expression CLOSECOND block condition1 ENDLINE .
+
+    CLOSEEXP        reduce using rule 26 (condition -> IF error expression CLOSECOND block condition1 ENDLINE .)
+    IDENTIFIER      reduce using rule 26 (condition -> IF error expression CLOSECOND block condition1 ENDLINE .)
+    IF              reduce using rule 26 (condition -> IF error expression CLOSECOND block condition1 ENDLINE .)
+    PRINT           reduce using rule 26 (condition -> IF error expression CLOSECOND block condition1 ENDLINE .)
+
